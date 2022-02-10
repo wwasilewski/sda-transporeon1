@@ -5,6 +5,7 @@ import pl.sda.java.adv.school.model.Student;
 import pl.sda.java.adv.school.model.Teacher;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class MainDataClassesOverview {
 
@@ -117,14 +118,21 @@ public class MainDataClassesOverview {
 
 //        Collections.sort(personList, new NestedPersonFirstNameLastNameComparator());
 
-        Collections.sort(personList, ((o1, o2) -> {
-            int firstNameResult = o1.getFirstName().compareTo(o2.getFirstName());
+//        Collections.sort(personList, ((o1, o2) -> {
+//            int firstNameResult = o1.getFirstName().compareTo(o2.getFirstName());
+//
+//            if (firstNameResult == 0) {
+//                return o1.getLastName().compareTo(o2.getLastName());
+//            }
+//            return firstNameResult;
+//        }));
 
-            if (firstNameResult == 0) {
-                return o1.getLastName().compareTo(o2.getLastName());
-            }
-            return firstNameResult;
-        }));
+        //Compares using lastName (descending) and then firstName (ascending)
+        Comparator<Person> firstNameComparator = Comparator.comparing(Person::getLastName)
+                .reversed()
+                .thenComparing(Person::getFirstName);
+
+        Collections.sort(personList, firstNameComparator);
 
 // Consumer as a internal class:
 //        personList.forEach(new Consumer<Person>() {
