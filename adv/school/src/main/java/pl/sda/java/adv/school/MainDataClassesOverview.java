@@ -145,6 +145,13 @@ public class MainDataClassesOverview {
 // Consumer as a lambda
         personList.forEach(person -> System.out.println(person));
 
+        System.out.println("\nLet's use Iterator directly");
+
+        Iterator<Person> personIterator = personList.iterator();
+        while (personIterator.hasNext()) {
+            Person person = personIterator.next();
+            System.out.println(person);
+        }
     }
 
     //Internal class (bound to object)
