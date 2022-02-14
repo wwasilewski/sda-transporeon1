@@ -1,5 +1,6 @@
 package pl.sda.java.adv.school;
 
+import pl.sda.java.adv.school.model.Person;
 import pl.sda.java.adv.school.model.Student;
 
 import java.util.*;
@@ -12,7 +13,7 @@ public class StudentService {
         this.students = students;
     }
 
-    public Map<String,Student> getStudentIdToStudentMap() {
+    public Map<String, Student> getStudentIdToStudentMap() {
 //        final Map<String,Student> studentIdToStudentMap = new HashMap<>();
 //        for (Student student : students) {
 //            studentIdToStudentMap.put(student.getId(), student);
@@ -21,13 +22,13 @@ public class StudentService {
 //        return Collections.unmodifiableMap(studentIdToStudentMap);
 
         return students.stream()
-            .collect(Collectors.toUnmodifiableMap(
-                Student::getId, // student -> student.getId()
-                student -> student // Function.identity()
-            ));
+                .collect(Collectors.toUnmodifiableMap(
+                        Student::getId, // student -> student.getId()
+                        student -> student // Function.identity()
+                ));
     }
 
-    public Map<String,List<Student>> getCityToStudentsMap() {
+    public Map<String, List<Student>> getCityToStudentsMap() {
 //        final Map<String,List<Student>> cityToStudentsMap = new HashMap<>();
 //        for (Student student : students) {
 //            final String city = student.getAddress().getCity();
@@ -55,4 +56,20 @@ public class StudentService {
         return students.stream()
                 .collect(Collectors.groupingBy(student -> student.getAddress().getCity()));
     }
+
+    public List<Student> getByAgeAscending() {
+
+        return students.stream()
+                .sorted(Comparator.comparing(Person::getBirthDate).reversed())
+                .collect(Collectors.toList());
+    }
+
+
+    public List<Student> getByAgeDesc() {
+        return students.stream()
+                .sorted(Comparator.comparing(Person::getBirthDate))
+                .collect(Collectors.toList());
+    }
+
 }
+
