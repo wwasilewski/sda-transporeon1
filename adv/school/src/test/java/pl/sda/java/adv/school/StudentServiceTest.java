@@ -1,5 +1,6 @@
 package pl.sda.java.adv.school;
 
+import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.sda.java.adv.school.model.Student;
@@ -41,14 +42,15 @@ class StudentServiceTest {
     @Test
     void testGetCityToStudentsMap() {
         //WHEN
-        final Map<String,List<Student>> map = studentService.getCityToStudentsMap();
+        final Map<String, List<Student>> map = studentService.getCityToStudentsMap();
 
         //THEN
         assertThat(map.get("Krzeszowice"))
-            .hasSize(2)
-            .extracting(Student::getId)
-            .containsExactlyInAnyOrder("00001003","00001007");
+                .hasSize(2)
+                .extracting(Student::getId)
+                .containsExactlyInAnyOrder("00001003", "00001007");
     }
+
     @Test
     void getStudentsSortedByAgeDesc() {
         //WHEN
@@ -99,5 +101,83 @@ class StudentServiceTest {
                         "00002001",
                         "00002003"
                 );
+    }
+
+    @Test
+    void getStudentsSortedByCityAndLastName() {
+        //WHEN
+        var students = studentService.getStudentsByCityAndLastName();
+
+        //THEN
+        assertThat(students).extracting(Student::getId)
+                .containsExactly(
+                        "00002002",
+                        "00001001",
+                        "00002003",
+                        "00001298",
+                        "00001009",
+                        "00001004",
+                        "00001008",
+                        "00001007",
+                        "00001003",
+                        "00002005",
+                        "00001005",
+                        "00001002",
+                        "00002001",
+                        "00001006",
+                        "00002004"
+                );
+    }
+
+    @Test
+    void getStudentsByYearSortedByLastAndFirstName() {
+        //WHEN
+        var students = studentService.get8thGradersByLastNameAndFirstName();
+
+        //THEN
+        assertThat(students).extracting(Student::getLastName)
+                .containsExactly(
+                        "Dąbrowska",
+                        "Jankowska",
+                        "Kozłowski",
+                        "Mazur",
+                        "Woźniak"
+                );
+    }
+
+    @Test
+    void getStudentsWhoRepeatedAYear() {
+        //WHEN
+        var students = studentService.getStudentsWhoRepeatedAYear();
+
+        //THEN
+        assertThat(students).extracting(Student::getId)
+                .containsExactlyInAnyOrder("00001003", "00001008", "00002004");
+    }
+
+    @Test
+    void getOldestStudentFromEachCity() {
+        //WHEN
+        var cityToStudentMap = studentService.getOldestStudentFromEachCity();
+
+        //THEN
+        assertThat(cityToStudentMap.size()).isEqualTo(8);
+        assertThat(cityToStudentMap.get("Balice").get().getId().equals("00002002"));
+        assertThat(cityToStudentMap.get("Kłaj").get().getId().equals("00002005"));
+        assertThat(cityToStudentMap.get("Kraków").get().getId().equals("00002003"));
+        assertThat(cityToStudentMap.get("Krzeszowice").get().getId().equals("00001003"));
+        assertThat(cityToStudentMap.get("Modlniczka").get().getId().equals("00001005"));
+        assertThat(cityToStudentMap.get("Skawina").get().getId().equals("00002001"));
+        assertThat(cityToStudentMap.get("Wieliczka").get().getId().equals("00001006"));
+        assertThat(cityToStudentMap.get("Zabierzów").get().getId().equals("00002004"));
+    }
+
+    @Test
+    void getRatioOfStudentsNotFrom() {
+        //WHEN
+        var ratio = studentService.getRatioOfStudentsNotFrom("Kraków");
+
+        //THEN
+        assertThat(ratio).isCloseTo(60.0, Offset.offset(0.001));
     }
 }
