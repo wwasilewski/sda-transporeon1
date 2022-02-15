@@ -18,12 +18,14 @@ public class MainOutputStream {
         final CsvStudentsLoader csvStudentsLoader = new CsvStudentsLoader();
         final List<Student> students;
 
+        System.out.println("Readable: " + Files.isReadable(Path.of("example/students.csv")));
         try (final InputStream inputStream = Files.newInputStream(Path.of("example/students.csv"))) {
             students = csvStudentsLoader.loadData(inputStream);
         }
 
         StudentService studentService = new StudentService(students);
 
+        System.out.println("Writable: " + Files.isWritable(Path.of("example/repeated.txt")));
         try (final OutputStream outputStream = Files.newOutputStream(Path.of("example/repeated.txt"))) {
 //        try (final OutputStream outputStream = Files.newOutputStream(Path.of("example/repeated.txt"), StandardOpenOption.CREATE_NEW)) {
 //        try (final OutputStream outputStream = Files.newOutputStream(Path.of("example/repeated.txt"), StandardOpenOption.APPEND)) {
