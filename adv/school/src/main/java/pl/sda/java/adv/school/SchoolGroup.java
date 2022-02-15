@@ -24,4 +24,22 @@ public class SchoolGroup {
     public void setClassCode(char classCode) {
         this.classCode = classCode;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SchoolGroup that = (SchoolGroup) o;
+
+        if (schoolYear != that.schoolYear) return false;
+        return classCode == that.classCode;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = schoolYear;
+        result = 31 * result + (int) classCode;
+        return result;
+    }
 }
