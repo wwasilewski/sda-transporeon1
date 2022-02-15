@@ -180,4 +180,13 @@ class StudentServiceTest {
         //THEN
         assertThat(ratio).isCloseTo(60.0, Offset.offset(0.001));
     }
+
+    @Test
+    void getStudentsBySchoolGroup() {
+        //when
+        var students = studentService.getStudentsBySchoolGroup();
+
+        //then
+        assertThat(students.get(new SchoolGroup((byte) 4, 'A'))).hasSize(5);
+    }
 }
