@@ -71,5 +71,64 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
 
+    public List<Student> getStudentsSortedByCityAndLastName() {
+        Comparator<Student> cityComparator = Comparator.comparing(student -> student.getAddress().getCity());
+
+        return students.stream()
+                //.sorted(Comparator.comparing((Function<Student,String>)student -> student.getAddress().getCity())
+                .sorted(cityComparator.thenComparing(Student::getLastName))
+                .collect(Collectors.toList());
+    }
+
+    public List<Student> getStudentsByYearSortedByLastAndFirstName(byte schoolYear) {
+        return students.stream()
+                .filter(s -> s.getSchoolYear() == schoolYear)
+                .sorted(Comparator.comparing(Person::getLastName).thenComparing(Person::getFirstName))
+                .collect(Collectors.toList());
+    }
+
+    public List<Student> getStudentsWhichRepeatedAYear() {
+        return students.stream()
+                .filter(this::hasRepeatedYear)
+                .collect(Collectors.toList());
+    }
+    private boolean hasRepeatedYear(Student student) {
+        int yearsOfEducation = 2022 - student.getStartYear();
+        return yearsOfEducation > student.getSchoolYear();
+    }
+
+    public Map<String, Student> getOldestStudentFromEachCity() {
+//        return students.stream()
+//                .collect(Collectors.groupingBy(student -> student.getAddress().getCity(),
+//                        Collectors.minBy(Comparator.comparing(Student::getBirthDate))))
+//                .values()
+//                .stream()
+//                .map(Optional::get)
+//                .collect(Collectors.toUnmodifiableMap(
+//                        student -> student.getAddress().getCity(),
+//                        Function.identity()
+//                ));
+        return students.stream()
+                .collect(Collectors.toUnmodifiableMap(
+                        student -> student.getAddress().getCity(),
+                        student -> student,
+                        (student1, student2) -> {
+                            if (student1.getBirthDate().isBefore(student2.getBirthDate())) {
+                                return student1;
+                            }
+                            return student2;
+                        }
+                ));
+
+    }
+
+    public double getRatioOfStudentsNotFrom(String city) {
+        long numberOfStudentsNotFromCity = students.stream()
+                .filter(student -> !student.getAddress().getCity().equals(city))
+                .count();
+
+        return numberOfStudentsNotFromCity * 100.0 / students.size();
+    }
+
 }
 
