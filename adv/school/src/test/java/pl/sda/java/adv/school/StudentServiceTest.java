@@ -132,7 +132,7 @@ class StudentServiceTest {
     @Test
     void getStudentsByYearSortedByLastAndFirstName() {
         //WHEN
-        var students = studentService.get8thGradersByLastNameAndFirstName();
+        var students = studentService.getStudentsByYearSortedByLastAndFirstName((byte) 8);
 
         //THEN
         assertThat(students).extracting(Student::getLastName)
@@ -162,14 +162,14 @@ class StudentServiceTest {
 
         //THEN
         assertThat(cityToStudentMap.size()).isEqualTo(8);
-        assertThat(cityToStudentMap.get("Balice").get().getId().equals("00002002"));
-        assertThat(cityToStudentMap.get("Kłaj").get().getId().equals("00002005"));
-        assertThat(cityToStudentMap.get("Kraków").get().getId().equals("00002003"));
-        assertThat(cityToStudentMap.get("Krzeszowice").get().getId().equals("00001003"));
-        assertThat(cityToStudentMap.get("Modlniczka").get().getId().equals("00001005"));
-        assertThat(cityToStudentMap.get("Skawina").get().getId().equals("00002001"));
-        assertThat(cityToStudentMap.get("Wieliczka").get().getId().equals("00001006"));
-        assertThat(cityToStudentMap.get("Zabierzów").get().getId().equals("00002004"));
+        assertThat(cityToStudentMap.get("Balice").getId().equals("00002002"));
+        assertThat(cityToStudentMap.get("Kłaj").getId().equals("00002005"));
+        assertThat(cityToStudentMap.get("Kraków").getId().equals("00002003"));
+        assertThat(cityToStudentMap.get("Krzeszowice").getId().equals("00001003"));
+        assertThat(cityToStudentMap.get("Modlniczka").getId().equals("00001005"));
+        assertThat(cityToStudentMap.get("Skawina").getId().equals("00002001"));
+        assertThat(cityToStudentMap.get("Wieliczka").getId().equals("00001006"));
+        assertThat(cityToStudentMap.get("Zabierzów").getId().equals("00002004"));
     }
 
     @Test

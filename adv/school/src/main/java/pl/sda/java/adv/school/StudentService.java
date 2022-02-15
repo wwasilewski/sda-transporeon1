@@ -78,10 +78,10 @@ public class StudentService {
 
     }
 
-    public List<Student> get8thGradersByLastNameAndFirstName() {
+    public List<Student> getStudentsByYearSortedByLastAndFirstName(byte schoolYear) {
         return students.stream()
-                .filter(s1 -> s1.getSchoolYear() == 8)
-                .sorted(Comparator.comparing(s1 -> s1.getLastName() + s1.getFirstName()))
+                .filter(s1 -> s1.getSchoolYear() == schoolYear)
+                .sorted(Comparator.comparing(Student::getLastName).thenComparing(Student::getFirstName))
                 .collect(Collectors.toList());
     }
 
@@ -91,10 +91,21 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
 
-    public Map<String, Optional<Student>> getOldestStudentFromEachCity() {
+    public Map<String, Student> getOldestStudentFromEachCity() {
+//        return students.stream()
+//                .collect(Collectors.groupingBy(s1 -> s1.getAddress().getCity(),
+//                        Collectors.minBy(Comparator.comparing(Student::getBirthDate))));
         return students.stream()
-                .collect(Collectors.groupingBy(s1 -> s1.getAddress().getCity(),
-                        Collectors.minBy(Comparator.comparing(Student::getBirthDate))));
+                .collect(Collectors.toUnmodifiableMap(
+                        s1 -> s1.getAddress().getCity(),
+                        s1 -> s1,
+                        (s1, s2) -> {
+                            if (s1.getBirthDate().isBefore(s2.getBirthDate())) {
+                                return s1;
+                            }
+                            return s2;
+                        }
+                ));
     }
 
     public double getRatioOfStudentsNotFrom(String city) {
