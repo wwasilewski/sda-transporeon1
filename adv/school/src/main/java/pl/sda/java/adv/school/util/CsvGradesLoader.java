@@ -4,9 +4,7 @@ import pl.sda.java.adv.school.model.Grade;
 import pl.sda.java.adv.school.model.GradeWeight;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class CsvGradesLoader extends AbstractCsvLoader<Grade> {
 
@@ -22,7 +20,7 @@ public class CsvGradesLoader extends AbstractCsvLoader<Grade> {
             grade.setStudentId(splat[0]);
             grade.setSubjectCode(splat[1]);
             grade.setGradeWeight(GradeWeight.valueOf(splat[2]));
-            grade.setValue(BigDecimal.valueOf(Double.parseDouble(splat[3])));
+            grade.setValue(new BigDecimal(splat[3]));
             return Optional.of(grade);
         } catch (Exception e) {
             e.printStackTrace();
