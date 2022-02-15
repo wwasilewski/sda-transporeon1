@@ -1,8 +1,8 @@
 package pl.sda.java.adv.school;
 
-public class SchoolGroup {
-    private byte schoolYear;
-    private char classCode;
+public final class SchoolGroup {
+    private final byte schoolYear;
+    private final char classCode;
 
     public SchoolGroup(byte schoolYear, char classCode) {
         this.schoolYear = schoolYear;
@@ -13,16 +13,8 @@ public class SchoolGroup {
         return schoolYear;
     }
 
-    public void setSchoolYear(byte schoolYear) {
-        this.schoolYear = schoolYear;
-    }
-
     public char getClassCode() {
         return classCode;
-    }
-
-    public void setClassCode(char classCode) {
-        this.classCode = classCode;
     }
 
     @Override
