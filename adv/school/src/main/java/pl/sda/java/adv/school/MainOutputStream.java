@@ -2,25 +2,24 @@ package pl.sda.java.adv.school;
 
 import pl.sda.java.adv.school.model.Student;
 import pl.sda.java.adv.school.util.CsvStudentsLoader;
+import pl.sda.java.adv.school.util.Loader;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class MainOutputStream {
     public static void main(String[] args) throws IOException {
-        final CsvStudentsLoader csvStudentsLoader = new CsvStudentsLoader();
+        final Loader<Student> loader = new CsvStudentsLoader();
         final List<Student> students;
 
         System.out.println("Readable: " + Files.isReadable(Path.of("example/students.csv")));
         try (final InputStream inputStream = Files.newInputStream(Path.of("example/students.csv"))) {
-            students = csvStudentsLoader.loadData(inputStream);
+            students = loader.loadData(inputStream);
         }
 
         StudentService studentService = new StudentService(students);

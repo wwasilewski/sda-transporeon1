@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractCsvLoader <T> {
+public abstract class AbstractCsvLoader<T> implements Loader<T> {
     public List<T> loadData(InputStream inputStream) throws IOException {
         final InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         final BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
