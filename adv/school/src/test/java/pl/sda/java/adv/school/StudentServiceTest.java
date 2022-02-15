@@ -49,6 +49,16 @@ class StudentServiceTest {
             .hasSize(2)
             .extracting(Student::getId)
             .containsExactlyInAnyOrder("00001003","00001007");
+
+        List<Student> krzeszowiceStudents = map.get("Krzeszowice");
+        Student student1 = krzeszowiceStudents.get(0);
+        Student student2 = krzeszowiceStudents.get(1);
+
+        assertThat(student1.getAddress().getCity())
+                .isNotSameAs(student2.getAddress().getCity());
+
+        assertThat(student1.getAddress().getCity())
+                .isEqualTo(student2.getAddress().getCity());
     }
     @Test
     void getStudentsSortedByAgeDesc() {
