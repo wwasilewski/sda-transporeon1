@@ -34,6 +34,5 @@ public class GameMain {
             repeatGame = sc.nextInt();
 
         } while (repeatGame != 0);
-
     }
 }
