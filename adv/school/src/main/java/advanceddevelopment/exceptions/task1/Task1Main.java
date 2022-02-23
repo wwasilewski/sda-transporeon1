@@ -1,4 +1,4 @@
-package advanceddevelopment.exceptions;
+package advanceddevelopment.exceptions.task1;
 
 public class Task1Main {
 
