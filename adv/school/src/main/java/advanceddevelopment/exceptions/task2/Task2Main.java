@@ -9,5 +9,13 @@ public class Task2Main {
         repo.add(new Book(3, "title3", "author3", "2002"));
 
         repo.printAll();
+        System.out.println();
+        try {
+            repo.remove(1);
+            repo.printAll();
+            repo.remove(5);
+        } catch (NoBookFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
